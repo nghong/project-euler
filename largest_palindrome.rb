@@ -7,17 +7,18 @@ class Integer
   end
 end
 
-def largest_palindrome(a, b)
+def largest_palindrome(a, b) # From a to b
   largest_palind = 0
-  c = a
-  while a <= b
-    while c <= b
-      product = a*c
+  d = b
+  while a <= d
+    c = b
+    while d <= c
+      product = d*c
+      break if product <= largest_palind
       largest_palind = product if product.palindrome? && largest_palind < product
-      c += 1
+      c -= 1
     end
-    a += 1
-    c = a
+    d -= 1
   end
   largest_palind
 end
