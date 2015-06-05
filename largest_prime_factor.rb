@@ -19,11 +19,12 @@
 
 def largest_prime_factor(number)
   return 1 if number <= 1
-  uoc = 2
+  number /= 2 while number % 2 == 0 # Do chỉ có 2 là số nguyên tố chẵn duy nhất
+  return 2 if number == 1
+  uoc = 3
   while number > 1
     number /= uoc while number % uoc == 0
-    uoc = uoc + 1
+    uoc = uoc + 2
     return number if uoc*uoc > number && number > 1
   end
-  uoc    
 end
