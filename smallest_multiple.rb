@@ -2,10 +2,22 @@
 
 # Đây không phải là phương pháp tốt nhất nhưng là phương pháp mà mình
 # tự nghĩ ra và thấy dễ hiểu nhất.
+# Theo mình suy nghĩ thì để tìm được bội chung nhỏ nhất của một dãy số
+# thì phải loại bỏ những số mà lũy thừa lớn nhất của nó xuất hiện trong
+# tập hợp.
+# VD: Cho dãy số 1, 2, 3, 4, 5
+# Ở đây ta loại bỏ 2 vì 2 đã xuất hiện trong 4: 4 = 2*2
+# Tương tự ta cũng loại bỏ những số là bội của những số có trong tập hợp
+# VD: Cho dãy số 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+# Ta loại bỏ 6 và 10 vì 6 = 2*3 và 10 = 2*5
+# Khi áp dụng hai phép loại này vào dãy số thì tích của những số còn lại
+# cũng chính là bội số nhỏ nhất.
 
 def smallest_multiple(a, b)
   tap_hop = (a..b).to_a
   tap_hop.shift if a == 1 # Loại 1 nếu 1 là phần tử đầu tiên
+  
+  # Sử dụng phép loại thứ nhất
   
   phan_tu_da_xuat_hien = [] # Mảng chứa những số lũy thừa
   phan_tu_luy_thua_lon_nhat = [] # Chứa những số lũy thừa lớn nhất
@@ -30,24 +42,15 @@ def smallest_multiple(a, b)
     end
   end
   
-  # Lặp qua phan_tu_luy_thua_lon_nhat để loại bỏ những số là bội
-  # của phần tử trong tap_hop
-  # Ví dụ khi chạy code với tap_hop = (1..10).to_a, ta có
-  # phan_tu_luy_thua_lon_nhat = [ 8, 9, 5, 7, 6, 10]
-  # Trong đó 6 = 2 * 3 và 10 = 2 * 5 nên phải loại bỏ những số này.
-  # Ở đây mình tạo một duplicate của phan_tu_luy_thua_lon_nhat
-  # để tránh trường hợp khi xóa những số này gây ảnh hưởng đến index
-  # của mảng.
+  # Sử dụng phép loại thứ hai
+  
   copy_of_phan_tu_luy_thua_lon_nhat = phan_tu_luy_thua_lon_nhat.dup
   copy_of_phan_tu_luy_thua_lon_nhat.each do |x|
-    puts "x = #{x}"
     tap_hop.each do |y|
-      puts "y = #{y}"
-      if x % y == 0
+      if x % y == 0 # Chỉ thực hiện khi x là bội của y
         z = x
-        puts "z = #{z}"
-        z /= y while z % y == 0
-        puts "z after = #{z}"
+        z /= y while z % y == 0 # Chia cho y đến khi nào không chia được nữa
+        # Loại phần tử nếu như kết quả cuối cùng không phải 1
         phan_tu_luy_thua_lon_nhat.delete(x) if z != 1
         break
       end
